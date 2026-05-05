@@ -1,4 +1,4 @@
-import { useRef, useState, Suspense, useEffect, useCallback } from 'react';
+import { useRef, useState, Suspense, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { 
   PerspectiveCamera, 
@@ -10,7 +10,7 @@ import {
   BakeShadows
 } from '@react-three/drei';
 import * as THREE from 'three';
-import { motion, useMotionValue, useSpring, animate } from 'framer-motion';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 const PRODUCT_URL = 'https://fork.bhavuk-arora03.workers.dev/';
 
@@ -63,7 +63,7 @@ const Magnetic = ({ children, onHoverChange }: { children: React.ReactElement, o
 };
 
 // --- Custom Cursor (Cuberto Style: Large, Inverted, Sticky) ---
-const CustomCursor = ({ isDarkMode, hoverType }: { isDarkMode: boolean; hoverType: string | null }) => {
+const CustomCursor = ({ hoverType }: { hoverType: string | null }) => {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const cursorSize = useMotionValue(12);
@@ -240,7 +240,7 @@ const Scene = () => {
 
   return (
     <div className={`w-screen h-screen relative font-['Plus_Jakarta_Sans'] overflow-hidden ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
-      <CustomCursor isDarkMode={isDarkMode} hoverType={hoverType} />
+      <CustomCursor hoverType={hoverType} />
       
       {isDarkMode && (
         <div className="absolute inset-0 pointer-events-none z-0 bg-gradient-to-t from-blue-900/20 via-black to-black" />
