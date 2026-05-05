@@ -140,7 +140,7 @@ const BlueFork = () => {
 
   const isMobile = viewport.width < 5;
   const xPos = isMobile ? 0 : viewport.width * 0.28;
-  const yPos = isMobile ? 0.5 : 1.0;
+  const yPos = isMobile ? 1.4 : 1.0;
 
   useFrame((state) => {
     if (groupRef.current) {
@@ -154,7 +154,9 @@ const BlueFork = () => {
       groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotationY, 0.1);
       groupRef.current.rotation.z = 0;
 
-      const targetScale = hovered ? 1.9 : 1.7;
+      const baseScale = isMobile ? 1.2 : 1.7;
+      const hoverScale = isMobile ? 1.3 : 1.9;
+      const targetScale = hovered ? hoverScale : baseScale;
       groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
     }
   });
@@ -287,7 +289,7 @@ const Scene = () => {
         </Magnetic>
       </div>
 
-      <div className="absolute inset-0 flex flex-col items-start justify-center p-8 md:p-32 pointer-events-none z-10">
+      <div className="absolute inset-0 flex flex-col items-start justify-end md:justify-center p-8 pb-32 md:p-32 pointer-events-none z-10">
         <div className="w-full max-w-4xl">
           <div 
             onMouseEnter={() => setHoverType('text')}
