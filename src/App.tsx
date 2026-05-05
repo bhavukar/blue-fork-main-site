@@ -21,7 +21,7 @@ const BLUE_HOVER = "#1d4ed8";
 const BLUE_LIGHT = "#60a5fa";
 
 // --- Magnetic Component (Refined for Cuberto Feel) ---
-const Magnetic = ({ children, onHoverChange }: { children: React.ReactElement, onHoverChange?: (hovered: boolean) => void }) => {
+const Magnetic = ({ children, onHoverChange, className = "" }: { children: React.ReactElement, onHoverChange?: (hovered: boolean) => void, className?: string }) => {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -60,7 +60,7 @@ const Magnetic = ({ children, onHoverChange }: { children: React.ReactElement, o
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={{ x: springX, y: springY }}
-      className="relative flex items-center justify-center"
+      className={`relative flex items-center justify-center ${className}`}
     >
       {children}
     </motion.div>
@@ -131,9 +131,9 @@ const CustomCursor = ({ hoverType }: { hoverType: string | null }) => {
 };
 
 // --- Masked Text Reveal ---
-const MaskedText = ({ children, delay = 0, trigger = true }: { children: React.ReactNode; delay?: number; trigger?: boolean }) => {
+const MaskedText = ({ children, delay = 0, trigger = true, className = "" }: { children: React.ReactNode; delay?: number; trigger?: boolean; className?: string }) => {
   return (
-    <div className="mask-container">
+    <div className={`mask-container ${className}`}>
       <motion.div
         initial={{ translateY: "100%" }}
         animate={trigger ? { translateY: 0 } : { translateY: "100%" }}
@@ -142,6 +142,7 @@ const MaskedText = ({ children, delay = 0, trigger = true }: { children: React.R
           delay,
           ease: [0.76, 0, 0.24, 1]
         }}
+        className="w-full"
       >
         {children}
       </motion.div>
@@ -156,7 +157,7 @@ const BlueFork = () => {
 
   const isMobile = viewport.width < 5;
   const xPos = isMobile ? 0 : viewport.width * 0.28;
-  const yPos = isMobile ? 1.4 : 1.0;
+  const yPos = isMobile ? 1.2 : 1.0;
 
   useFrame((state) => {
     if (groupRef.current) {
@@ -329,24 +330,24 @@ const Scene = () => {
                   </p>
                 </MaskedText>
 
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <MaskedText delay={0.6} trigger={isIROpen}>
-                    <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)}>
+                <div className="flex flex-col sm:flex-row gap-4 w-full">
+                  <MaskedText delay={0.6} trigger={isIROpen} className="w-full">
+                    <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)} className="w-full">
                       <a 
                         href="mailto:bhavuk.arora03@gmail.com"
-                        className="px-10 py-4 bg-white text-black text-[11px] font-black uppercase tracking-[0.2em] rounded-full text-center block pointer-events-auto"
+                        className="px-10 py-4 bg-white text-black text-[11px] font-black uppercase tracking-[0.2em] rounded-full text-center block pointer-events-auto w-full"
                       >
                         Contact Mail
                       </a>
                     </Magnetic>
                   </MaskedText>
-                  <MaskedText delay={0.7} trigger={isIROpen}>
-                    <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)}>
+                  <MaskedText delay={0.7} trigger={isIROpen} className="w-full">
+                    <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)} className="w-full">
                       <a 
                         href="https://www.linkedin.com/in/bhavuk-arora-4a7263216/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-10 py-4 border border-white/20 text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-full text-center block pointer-events-auto hover:border-white transition-colors"
+                        className="px-10 py-4 border border-white/20 text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-full text-center block pointer-events-auto hover:border-white transition-colors w-full"
                       >
                         LinkedIn
                       </a>
@@ -397,29 +398,31 @@ const Scene = () => {
       </div>
 
       <div className="absolute inset-0 flex flex-col items-start justify-center p-8 md:p-32 pointer-events-none z-10">
-        <div className="w-full max-w-4xl">
-          <div onMouseEnter={() => { setTitleHovered(true); setHoverType('text'); }} onMouseLeave={() => { setTitleHovered(false); setHoverType(null); }} className="pointer-events-auto inline-block mb-4">
-            <h1 className="text-6xl sm:text-7xl md:text-9xl font-['Bebas_Neue'] font-black leading-[0.85] uppercase select-none cursor-default transition-all duration-500">
-              <MaskedText delay={0.2}>Blue</MaskedText>
-              <MaskedText delay={0.3}><span className="text-blue-600">Fork</span></MaskedText>
-            </h1>
+        <div className="w-full max-w-4xl h-full md:h-auto flex flex-col justify-between md:justify-center pt-20 pb-24 md:py-0">
+          <div>
+            <div onMouseEnter={() => { setTitleHovered(true); setHoverType('text'); }} onMouseLeave={() => { setTitleHovered(false); setHoverType(null); }} className="pointer-events-auto inline-block mb-4">
+              <h1 className="text-6xl sm:text-7xl md:text-9xl font-['Bebas_Neue'] font-black leading-[0.85] uppercase select-none cursor-default transition-all duration-500">
+                <MaskedText delay={0.2}>Blue</MaskedText>
+                <MaskedText delay={0.3}><span className="text-blue-600">Fork</span></MaskedText>
+              </h1>
+            </div>
+            <motion.div 
+              initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
+              transition={{ duration: 1.5, delay: 0.8, ease: [0.76, 0, 0.24, 1] }}
+              className="w-16 h-1 bg-blue-600 mb-12 md:mb-14 origin-left"
+              style={{ width: titleHovered ? '120px' : '64px' }}
+            />
           </div>
-          <motion.div 
-            initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
-            transition={{ duration: 1.5, delay: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="w-16 h-1 bg-blue-600 mb-12 md:mb-14 origin-left"
-            style={{ width: titleHovered ? '120px' : '64px' }}
-          />
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto pointer-events-auto">
-            <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)}>
+            <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)} className="w-full sm:w-auto">
               <a href={PRODUCT_URL} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-12 py-4 bg-blue-600 text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-full text-center shadow-lg block">
                 Explore Fork
               </a>
             </Magnetic>
-            <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)}>
-              <button 
+            <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)} className="w-full sm:w-auto">
+              <button
                 onClick={toggleIR}
-                className={`w-full sm:w-auto px-12 py-4 text-[11px] font-black uppercase tracking-[0.2em] rounded-full border text-center transition-colors duration-500 ${isDarkMode ? 'bg-transparent border-white/20 text-white' : 'bg-white border-black/10 text-black shadow-sm'}`}>
+                className={`w-full sm:w-auto px-12 py-4 text-[11px] font-black uppercase tracking-[0.2em] rounded-full border-[1px] text-center transition-all duration-500 ${isDarkMode ? 'bg-transparent border-white/60 text-white hover:bg-white hover:text-black' : 'bg-white border-black text-black shadow-sm hover:bg-black hover:text-white'}`}>
                 Investor Relations
               </button>
             </Magnetic>
@@ -427,15 +430,15 @@ const Scene = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-0 w-full px-8 md:px-32 flex flex-col md:flex-row justify-between items-start md:items-end pointer-events-none z-20">
+      <div className="absolute bottom-6 md:bottom-8 left-0 w-full px-8 md:px-32 flex flex-col md:flex-row justify-between items-start md:items-end pointer-events-none z-20">
         <div className="flex flex-col gap-1">
           <MaskedText delay={1}>
-            <div className={`text-[12px] md:text-[13px] font-black uppercase tracking-[0.4em] transition-colors duration-500 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+            <div className={`text-[11px] md:text-[13px] font-black uppercase tracking-[0.4em] transition-colors duration-500 ${isDarkMode ? 'text-white' : 'text-black'}`}>
               Blue Fork Pvt. Ltd.
             </div>
           </MaskedText>
           <MaskedText delay={1.1}>
-            <div className="text-blue-600 text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em]">
+            <div className="text-blue-600 text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em]">
               AI-Native Products
             </div>
           </MaskedText>
