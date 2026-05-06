@@ -314,7 +314,7 @@ const Scene = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-[70] bg-black text-white flex flex-col md:flex-row overflow-hidden"
+            className="absolute inset-0 z-[70] bg-black text-white flex flex-col md:flex-row h-[100dvh] overflow-hidden"
           >
             {/* Left Side: Founder Image - Optimized size */}
             <div className="w-full md:w-[40%] h-[40%] md:h-full overflow-hidden relative grayscale">
@@ -327,7 +327,7 @@ const Scene = () => {
             </div>
 
             {/* Right Side: Content */}
-            <div className="w-full md:w-[60%] h-[60%] md:h-full flex flex-col justify-center p-8 md:p-32 relative">
+            <div className="w-full md:w-[60%] h-[60%] md:h-full flex flex-col justify-center p-8 md:p-32 pb-20 md:pb-32 relative">
               <button 
                 onClick={toggleIR}
                 className="absolute top-8 right-8 md:top-12 md:right-12 px-6 py-2 rounded-full border border-white/20 text-[10px] font-black tracking-widest uppercase hover:bg-white hover:text-black transition-all z-[80] pointer-events-auto"
