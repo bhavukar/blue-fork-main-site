@@ -190,16 +190,31 @@ const BlueFork = () => {
         <group position={[0, -0.5, 0]}>
           <mesh position={[0, -1, 0]}>
             <cylinderGeometry args={[0.04, 0.07, 2, 32]} />
-            <meshStandardMaterial color={hovered ? BLUE_HOVER : BLUE_600} metalness={1} roughness={0.05} />
+            <meshStandardMaterial 
+              color={hovered ? BLUE_HOVER : BLUE_600} 
+              metalness={isMobile ? 0 : 1} 
+              roughness={isMobile ? 0.8 : 0.05} 
+              envMapIntensity={isMobile ? 0 : 1}
+            />
           </mesh>
           <mesh position={[0, 0.2, 0]}>
             <boxGeometry args={[0.35, 0.4, 0.08]} />
-            <meshStandardMaterial color={hovered ? BLUE_HOVER : BLUE_600} metalness={1} roughness={0.05} />
+            <meshStandardMaterial 
+              color={hovered ? BLUE_HOVER : BLUE_600} 
+              metalness={isMobile ? 0 : 1} 
+              roughness={isMobile ? 0.8 : 0.05} 
+              envMapIntensity={isMobile ? 0 : 1}
+            />
           </mesh>
           {[ -0.12, -0.04, 0.04, 0.12 ].map((x, i) => (
               <mesh key={i} position={[x, 0.7, 0]}>
                 <cylinderGeometry args={[0.015, 0.015, 0.8, 16]} />
-                <meshStandardMaterial color={hovered ? BLUE_HOVER : BLUE_600} metalness={1} roughness={0.05} />
+                <meshStandardMaterial 
+                  color={hovered ? BLUE_HOVER : BLUE_600} 
+                  metalness={isMobile ? 0 : 1} 
+                  roughness={isMobile ? 0.8 : 0.05} 
+                  envMapIntensity={isMobile ? 0 : 1}
+                />
               </mesh>
           ))}
         </group>
@@ -279,7 +294,7 @@ const Scene = () => {
   };
 
   return (
-    <div className={`w-screen h-screen relative font-['Plus_Jakarta_Sans'] overflow-hidden ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+    <div className={`w-screen h-[100dvh] relative font-['Plus_Jakarta_Sans'] overflow-hidden ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
       <CustomCursor hoverType={hoverType} />
       
       {isDarkMode && !isIROpen && (
