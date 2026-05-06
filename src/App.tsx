@@ -11,7 +11,20 @@ import {
 } from '@react-three/drei';
 import * as THREE from 'three';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import { Sun, Moon, ArrowUpRight, TrendingUp, ArrowLeft, Mail } from 'lucide-react';
 import founderImg from './assets/founder.jpeg';
+
+const LinkedInIcon = ({ size = 14 }: { size?: number }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    viewBox="0 0 24 24" 
+    fill="currentColor" 
+    width={size} 
+    height={size}
+  >
+    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+  </svg>
+);
 
 const PRODUCT_URL = 'https://fork.bhavuk-arora03.workers.dev/';
 
@@ -330,8 +343,9 @@ const Scene = () => {
             <div className="w-full md:w-[60%] h-[60%] md:h-full flex flex-col justify-center p-8 md:p-32 pb-20 md:pb-32 relative">
               <button 
                 onClick={toggleIR}
-                className="absolute top-8 right-8 md:top-12 md:right-12 px-6 py-2 rounded-full border border-white/20 text-[10px] font-black tracking-widest uppercase hover:bg-white hover:text-black transition-all z-[80] pointer-events-auto"
+                className="absolute top-8 right-8 md:top-12 md:right-12 px-6 py-2 rounded-full border border-white/20 text-[10px] font-black tracking-widest uppercase hover:bg-white hover:text-black transition-all z-[80] pointer-events-auto flex items-center gap-2"
               >
+                <ArrowLeft size={12} />
                 Back
               </button>
 
@@ -350,8 +364,9 @@ const Scene = () => {
                     <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)} className="w-full">
                       <a 
                         href="mailto:bhavuk.arora03@gmail.com"
-                        className="px-10 py-4 bg-white text-black text-[11px] font-black uppercase tracking-[0.2em] rounded-full text-center block pointer-events-auto w-full"
+                        className="px-10 py-4 bg-white text-black text-[11px] font-black uppercase tracking-[0.2em] rounded-full text-center block pointer-events-auto w-full flex items-center justify-center gap-2"
                       >
+                        <Mail size={14} />
                         Contact Mail
                       </a>
                     </Magnetic>
@@ -362,8 +377,9 @@ const Scene = () => {
                         href="https://www.linkedin.com/in/bhavuk-arora-4a7263216/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-10 py-4 border border-white/20 text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-full text-center block pointer-events-auto hover:border-white transition-colors w-full"
+                        className="px-10 py-4 border border-white/20 text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-full text-center block pointer-events-auto hover:border-white transition-colors w-full flex items-center justify-center gap-2"
                       >
+                        <LinkedInIcon size={14} />
                         LinkedIn
                       </a>
                     </Magnetic>
@@ -406,7 +422,8 @@ const Scene = () => {
 
       <div className="absolute top-8 right-8 md:top-12 md:right-12 z-[60] pointer-events-auto">
         <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)}>
-          <button onClick={toggleTheme} className={`px-6 py-2 rounded-full border text-[10px] font-black tracking-widest uppercase transition-colors duration-500 ${isDarkMode ? 'border-white/20 text-white' : 'border-black/10 text-black'}`}>
+          <button onClick={toggleTheme} className={`px-6 py-2 rounded-full border text-[10px] font-black tracking-widest uppercase transition-colors duration-500 ${isDarkMode ? 'border-white/20 text-white' : 'border-black/10 text-black'} flex items-center gap-2`}>
+            {isDarkMode ? <Sun size={12} /> : <Moon size={12} />}
             {isDarkMode ? 'LIGHT' : 'DARK'}
           </button>
         </Magnetic>
@@ -430,14 +447,16 @@ const Scene = () => {
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto pointer-events-auto">
             <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)} className="w-full sm:w-auto">
-              <a href={PRODUCT_URL} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-12 py-4 bg-blue-600 text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-full text-center shadow-lg block">
+              <a href={PRODUCT_URL} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-12 py-4 bg-blue-600 text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-full text-center shadow-lg block flex items-center justify-center gap-2 group">
                 Explore Fork
+                <ArrowUpRight size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </a>
             </Magnetic>
             <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)} className="w-full sm:w-auto">
               <button
                 onClick={toggleIR}
-                className={`w-full sm:w-auto px-12 py-4 text-[11px] font-black uppercase tracking-[0.2em] rounded-full border-[1px] text-center transition-all duration-500 ${isDarkMode ? 'bg-transparent border-white/60 text-white hover:bg-white hover:text-black' : 'bg-white border-black text-black shadow-sm hover:bg-black hover:text-white'}`}>
+                className={`w-full sm:w-auto px-12 py-4 text-[11px] font-black uppercase tracking-[0.2em] rounded-full border-[1px] text-center transition-all duration-500 ${isDarkMode ? 'bg-transparent border-white/60 text-white hover:bg-white hover:text-black' : 'bg-white border-black text-black shadow-sm hover:bg-black hover:text-white'} flex items-center justify-center gap-2`}>
+                <TrendingUp size={14} />
                 Investor Relations
               </button>
             </Magnetic>
