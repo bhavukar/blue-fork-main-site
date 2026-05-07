@@ -26,7 +26,7 @@ const LinkedInIcon = ({ size = 14 }: { size?: number }) => (
   </svg>
 );
 
-const PRODUCT_URL = 'https://fork.bhavuk-arora03.workers.dev/';
+const PRODUCT_URL = 'https://app.fork.blue/';
 
 // Original Brand Colors
 const BLUE_600 = "#2563eb";
