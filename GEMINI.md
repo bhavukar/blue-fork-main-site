@@ -1,6 +1,6 @@
 # Blue Fork Main Site
 
-A minimalist, professional interactive 3D landing page for Blue Fork Pvt. Ltd. The site features a metallic blue utensil fork in a clean environment, emphasizing "Excellence in simplicity."
+A minimalist, professional interactive 3D landing page for Blue Fork. The site features a metallic blue utensil fork in a clean environment, emphasizing "Excellence in simplicity."
 
 ## Tech Stack
 

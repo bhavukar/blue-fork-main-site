@@ -5,7 +5,7 @@ import {
   Environment,
   ContactShadows,
   PresentationControls,
-  Loader,
+  useProgress,
   MeshReflectorMaterial,
   BakeShadows
 } from '@react-three/drei';
@@ -32,6 +32,53 @@ const PRODUCT_URL = 'https://app.fork.blue/';
 const BLUE_600 = "#2563eb";
 const BLUE_HOVER = "#1d4ed8";
 const BLUE_LIGHT = "#60a5fa";
+
+// --- Custom Loading Screen ---
+const LoadingScreen = ({ onFinished }: { onFinished: () => void }) => {
+  const { progress, active } = useProgress();
+  const [show, setShow] = useState(true);
+
+  useEffect(() => {
+    // Force a small delay at 100% for visual polish
+    if (progress === 100 && !active) {
+      const timer = setTimeout(() => {
+        setShow(false);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [progress, active]);
+
+  return (
+    <AnimatePresence onExitComplete={onFinished}>
+      {show && (
+        <motion.div
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+          className="fixed inset-0 z-[1000] bg-white flex flex-col items-center justify-center font-['Plus_Jakarta_Sans']"
+        >
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center"
+          >
+            <div className="relative w-48 h-[1px] bg-black/5 mb-6 overflow-hidden">
+              <motion.div 
+                className="absolute top-0 left-0 h-full bg-blue-600"
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                transition={{ type: "spring", damping: 20, stiffness: 100 }}
+              />
+            </div>
+            <div className="text-[10px] font-black tracking-[0.4em] uppercase text-black/40">
+              Blue Fork <span className="text-black/20 ml-2">READY... {progress.toFixed(0)}%</span>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
 
 // --- Magnetic Component (Refined for Cuberto Feel) ---
 const Magnetic = ({ children, onHoverChange, className = "" }: { children: React.ReactElement, onHoverChange?: (hovered: boolean) => void, className?: string }) => {
@@ -252,7 +299,7 @@ const ReflectiveGround = ({ isDarkMode }: { isDarkMode: boolean }) => {
   );
 };
 
-const Scene = () => {
+const Scene = ({ isReady }: { isReady: boolean }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [nextTheme, setNextTheme] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -434,44 +481,48 @@ const Scene = () => {
           <div>
             <div onMouseEnter={() => { setTitleHovered(true); setHoverType('text'); }} onMouseLeave={() => { setTitleHovered(false); setHoverType(null); }} className="pointer-events-auto inline-block mb-4">
               <h1 className="text-6xl sm:text-7xl md:text-9xl font-['Bebas_Neue'] font-black leading-[0.85] uppercase select-none cursor-default transition-all duration-500">
-                <MaskedText delay={0.2}>Blue</MaskedText>
-                <MaskedText delay={0.3}><span className="text-blue-600">Fork</span></MaskedText>
+                <MaskedText delay={0.2} trigger={isReady}>Blue</MaskedText>
+                <MaskedText delay={0.3} trigger={isReady}><span className="text-blue-600">Fork</span></MaskedText>
               </h1>
             </div>
             <motion.div 
-              initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
+              initial={{ scaleX: 0 }} animate={{ scaleX: isReady ? 1 : 0 }}
               transition={{ duration: 1.5, delay: 0.8, ease: [0.76, 0, 0.24, 1] }}
               className="w-16 h-1 bg-blue-600 mb-12 md:mb-14 origin-left"
               style={{ width: titleHovered ? '120px' : '64px' }}
             />
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto pointer-events-auto">
-            <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)} className="w-full sm:w-auto">
-              <a href={PRODUCT_URL} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-12 py-4 bg-blue-600 text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-full text-center shadow-lg block flex items-center justify-center gap-2 group">
-                Explore Fork
-                <ArrowUpRight size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </a>
-            </Magnetic>
-            <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)} className="w-full sm:w-auto">
-              <button
-                onClick={toggleIR}
-                className={`w-full sm:w-auto px-12 py-4 text-[11px] font-black uppercase tracking-[0.2em] rounded-full border-[1px] text-center transition-all duration-500 ${isDarkMode ? 'bg-transparent border-white/60 text-white hover:bg-white hover:text-black' : 'bg-white border-black text-black shadow-sm hover:bg-black hover:text-white'} flex items-center justify-center gap-2`}>
-                <TrendingUp size={14} />
-                Investor Relations
-              </button>
-            </Magnetic>
+            <MaskedText delay={0.5} trigger={isReady}>
+              <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)} className="w-full sm:w-auto">
+                <a href={PRODUCT_URL} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-12 py-4 bg-blue-600 text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-full text-center shadow-lg block flex items-center justify-center gap-2 group">
+                  Explore Fork
+                  <ArrowUpRight size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </a>
+              </Magnetic>
+            </MaskedText>
+            <MaskedText delay={0.6} trigger={isReady}>
+              <Magnetic onHoverChange={(h) => setHoverType(h ? 'button' : null)} className="w-full sm:w-auto">
+                <button
+                  onClick={toggleIR}
+                  className={`w-full sm:w-auto px-12 py-4 text-[11px] font-black uppercase tracking-[0.2em] rounded-full border-[1px] text-center transition-all duration-500 ${isDarkMode ? 'bg-transparent border-white/60 text-white hover:bg-white hover:text-black' : 'bg-white border-black text-black shadow-sm hover:bg-black hover:text-white'} flex items-center justify-center gap-2`}>
+                  <TrendingUp size={14} />
+                  Investor Relations
+                </button>
+              </Magnetic>
+            </MaskedText>
           </div>
         </div>
       </div>
 
       <div className="absolute bottom-6 md:bottom-8 left-0 w-full px-8 md:px-32 flex flex-col md:flex-row justify-between items-start md:items-end pointer-events-none z-20">
         <div className="flex flex-col gap-1">
-          <MaskedText delay={1}>
+          <MaskedText delay={1} trigger={isReady}>
             <div className={`text-[11px] md:text-[13px] font-black uppercase tracking-[0.4em] transition-colors duration-500 ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              Blue Fork Pvt. Ltd.
+              Blue Fork
             </div>
           </MaskedText>
-          <MaskedText delay={1.1}>
+          <MaskedText delay={1.1} trigger={isReady}>
             <div className="text-blue-600 text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em]">
               AI-Native Products
             </div>
@@ -483,18 +534,14 @@ const Scene = () => {
 };
 
 export default function App() {
+  const [isReady, setIsReady] = useState(false);
+
   return (
     <>
+      <LoadingScreen onFinished={() => setIsReady(true)} />
       <Suspense fallback={null}>
-        <Scene />
+        <Scene isReady={isReady} />
       </Suspense>
-      <Loader 
-        containerStyles={{ background: '#ffffff' }}
-        innerStyles={{ background: BLUE_600, height: '2px' }}
-        barStyles={{ background: '#eee' }}
-        dataStyles={{ color: '#000', fontFamily: 'Plus Jakarta Sans', fontSize: '10px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.3em' }}
-        dataInterpolation={(p) => `READY... ${p.toFixed(0)}%`}
-      />
     </>
   );
 }

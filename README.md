@@ -37,4 +37,4 @@ npm run preview
 The production build is optimized and ready for deployment via the `dist` folder.
 
 ---
-© 2026 Blue Fork Pvt. Ltd.
+© 2026 Blue Fork
