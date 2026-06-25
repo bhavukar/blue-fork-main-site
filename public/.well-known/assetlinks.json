@@ -1,0 +1,16 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.creators.fork",
+      "sha256_cert_fingerprints": [
+        "2B:23:70:96:C5:1A:A5:E1:F2:69:7F:E4:32:C9:88:42:3A:B3:AD:C1:64:9D:B1:26:74:3F:81:76:7C:46:6C:54",
+        "BD:3F:48:3F:C0:4C:A5:04:B0:65:37:08:6B:13:65:C8:05:BC:7E:90:A1:E3:5B:02:11:76:70:AF:0E:D8:32:3A"
+      ]
+    }
+  }
+]

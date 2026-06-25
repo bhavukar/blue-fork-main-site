@@ -1,0 +1,17 @@
+<svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rounded Square Background -->
+  <rect width="512" height="512" rx="128" fill="#2b59ff" />
+
+  <!-- Centered White 2D Fork -->
+  <g transform="translate(170, 140) scale(0.66)">
+    <!-- HANDLE -->
+
+    <!-- THE BLOCK -->
+
+    <!-- TINES -->
+    <rect x="8" y="5" width="30" height="1000" rx="14" fill="white" />
+    <rect x="83" y="25" width="30" height="1000" rx="14" fill="white" />
+    <rect x="158" y="35" width="30" height="1000" rx="14" fill="white" />
+    <rect x="233" y="45" width="30" height="1000" rx="14" fill="white" />
+  </g>
+</svg>
